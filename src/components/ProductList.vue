@@ -7,13 +7,16 @@ import { products as productList } from '../data'
   <v-container>
     <v-row no-gutters>
       <Product
-        v-for="({ id, name, description, price, img }, index) in productList"
+        v-for="({ id, name, description, price, img, legendary, attributes, position }, index) in productList"
         :key="index"
         :id="id"
         :name="name"
         :description="description"
         :price="price"
         :img="img"
+        :legendary="legendary"
+        :attributes="attributes"
+        :position="position"
       />
     </v-row>
   </v-container>

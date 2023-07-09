@@ -12,14 +12,20 @@ const store = useStore()
         md="4"
         lg="3"
         class="cart-item-wrapper v-col-12 mb-4 px-4 px-lg-4 mb-lg-8 px-md-2 mb-md-4"
-        v-for="({ id, name, price, count, description, img }, index) in store.getters.products"
+        v-for="({ id, name, price, count, description, img, legendary }, index) in store.getters.products"
         :key="index"
       >
-        <v-card class="cart-item product mx-auto h-100 d-flex flex-column" max-width="400">
+        <v-card
+          class="cart-item product mx-auto h-100 d-flex flex-column"
+          max-width="400"
+          :class="{ legendary: legendary }"
+        >
           <v-img class="cart-img align-end text-white flex-grow-0" height="200" :src="img" cover> </v-img>
-          <v-card-title class="cart-title">{{ name }}</v-card-title>
+          <div class="product-title-wrapper">
+            <v-card-title class="product-title">{{ name }}</v-card-title>
+            <v-icon v-if="legendary" color="yellow">mdi-star-outline</v-icon>
+          </div>
           <v-card-subtitle class="cart-price pt-4"> Cena: {{ price }}PLN</v-card-subtitle>
-
           <v-card-text class="flex-grow-1">
             <div class="cart-description">{{ description }}</div>
           </v-card-text>
@@ -28,7 +34,12 @@ const store = useStore()
               Ilość: <span>{{ count }}</span>
             </div>
           </v-card-text>
-          <v-btn class="btn" variant="tonal" @click="store.dispatch('removeProduct', id)">Usuń</v-btn>
+          <v-btn
+            :variant="legendary ? 'text' : 'tonal'"
+            :color="legendary ? 'blue' : 'orange'"
+            @click="store.dispatch('removeProduct', id)"
+            >Usuń</v-btn
+          >
         </v-card>
       </v-col>
     </div>
@@ -145,5 +156,30 @@ span {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+/* HOVER EFFECTS */
+.cart-item::after {
+  position: fixed;
+  content: '';
+  box-shadow: 0 0 100px 40px #ffffff08;
+  top: -10%;
+  left: -100%;
+  transform: rotate(-45deg);
+  height: 60rem;
+  transition: 0.7s all;
+}
+
+.cart-item:hover {
+  border: 1px solid #ffffff44;
+  box-shadow: 0 7px 50px 10px #000000aa;
+  transform: scale(1.045);
+  -webkit-transform: scale(1.045);
+  filter: brightness(1.2);
+}
+
+.cart-item:hover::after {
+  filter: brightness(0.5);
+  top: -100%;
+  left: 200%;
 }
 </style>

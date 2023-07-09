@@ -22,6 +22,17 @@ export interface IProduct {
   description: string
   price: number
   img: string
+  legendary: boolean
+  position: string
+  attributes: IAttributes
+}
+
+export interface IAttributes {
+  dribbling: number
+  speed: number
+  shot: number
+  defensive: number
+  overall: number
 }
 
 export type IProductBasket = IProduct & {
